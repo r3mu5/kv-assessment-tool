@@ -2,7 +2,7 @@ ROOT=../build
 include $(ROOT)/rules.mk
 
 INCS = -I. -I/usr/include -Iinclude/
-#SH_LIBS = -lkmod
+SH_LIBS = -lsystemd
 ST_LIBS = /usr/lib/x86_64-linux-gnu/libprocps.a
 LIB_DIR = -L/usr/lib/x86_64-linux-gnu/
 
@@ -20,7 +20,7 @@ OBJS=	cli_utils.o 		\
 all: kvat
 
 kvat: $(OBJS)
-	$(CC) $(CFLAGS) $(INCS) $(LIB_DIR) -o $@ $(OBJS) $(ST_LIBS)
+	$(CC) $(CFLAGS) $(INCS) $(LIB_DIR) -o $@ $(OBJS) $(ST_LIBS) $(SH_LIBS)
 
 clean_objs:
 	@$(RM) $(OBJS)
