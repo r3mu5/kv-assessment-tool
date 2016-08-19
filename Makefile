@@ -1,12 +1,25 @@
-obj-m := kernel_rk.o
+include build/rules.mk
 
-KDIR ?= /lib/modules/$(shell uname -r)/build
-PWD := $(shell pwd)
+SUBDIRS = 	kva-tool	\
+		mmsearch	\
+		mmsearch/test	\
+		kernel_rk	\
 
-default:
-	$(MAKE) -C $(KDIR) M=$(PWD) modules
+all: subdirs
 
 clean:
-	rm *.ko *.mod.* *.o *.order *.symvers
+	@for dir in $(SUBDIRS) ; do \
+        if [ -d $$dir ]; then ( cd $$dir ; make clean ) ; fi \
+    done
+
+include build/common.mk
+
+
+
+
+
+
+
+
 
 
