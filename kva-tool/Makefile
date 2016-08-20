@@ -2,7 +2,11 @@ ROOT=../build
 include $(ROOT)/rules.mk
 
 INCS = -I. -I/usr/include -Iinclude/
-SH_LIBS = -lsystemd
+
+ifeq "$(shell echo $(WITH_LIBSYSTEMD))" "true"
+	SH_LIBS = -lsystemd
+endif
+
 ST_LIBS = /usr/lib/x86_64-linux-gnu/libprocps.a
 LIB_DIR = -L/usr/lib/x86_64-linux-gnu/
 
