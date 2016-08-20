@@ -13,26 +13,53 @@ interest.
 We are looking for other contributors to add modules and tests
 illustrating concerning behaviors.
 
-Our hope is to prompt a broader discussion as to how better to
-secure a unix kernel be it Linux or other. 
+Our hope is to prompt a broader discussion as to how better to secure
+a unix kernel be it Linux or other by examining vulnerable kernel
+paths.
 
 In the end, we aspire to evolve this into a regression tool to assess
-the security state of any running kernel.
+the security state of any kernel or evaluate kernel security patches.
 
-Ideas and improvements welcome. 
+Ideally every kernel security feature will have a demonstration of its
+effectiveness now and in the future.
+
+Contributionss and improvements welcome.
+
+## Linux Distributions
+
+This package is known to build on:
+
+1) Debian Jessie 8.x
+2) Ubuntu 16.04
+
+## kernel versions tested
+
+1) 4.4.x
+...
 
 ## building kva-tool
 
 1. git clone the kv-assessment-tool repo
 
-2. install the linux-headers package for the kernel version running on
-the build system
+2. install the linux-headers package for the kernel version you wish
+to test.
 
     This is required to build the kernel module
 
 3. install libprocps3-dev package
 
    This is required to access process information
+
+Some distros, such as Ubuntu 16.04 have moved to libprocps4-dev. When
+building against this version of libprocps, there is an a dependency
+on libsystemd-dev which must also be installed.
+
+To link against this library export the environnment variable
+WITH_LIBSYSTEMD and set it to true, e. g.:
+
+export WITH_LIBSYSTEMD=true
+
+prior to building the tool set.
 
 4. run make from top level directory
 

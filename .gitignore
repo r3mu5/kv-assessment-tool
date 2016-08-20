@@ -15,4 +15,6 @@ Module*
 modules*
 \.mmsearch*
 patches
+kvat
+kernel-rk/.ker*
 

@@ -12,3 +12,7 @@ D: test framework, mmsearch kernel module
 M: Justin Vreeland
 E: jvreeland@hpe.com
 D: mmsearch kernel module
+
+M: Ian Cohee
+E: ian.cohee@secure64.com
+D: kernel-rk module

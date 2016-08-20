@@ -3,7 +3,7 @@ include build/rules.mk
 SUBDIRS = 	kva-tool	\
 		mmsearch	\
 		mmsearch/test	\
-		kernel_rk	\
+		kernel-rk	\
 
 all: subdirs
 
