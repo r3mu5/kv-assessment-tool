@@ -7,6 +7,10 @@ ifeq "$(shell echo $(WITH_LIBSYSTEMD))" "true"
 	SH_LIBS = -lsystemd
 endif
 
+ifeq "$(shell echo $(KVAT_DEBUG))" "true"
+	CFLAGS += -DDEBUG
+endif
+
 ST_LIBS = /usr/lib/x86_64-linux-gnu/libprocps.a
 LIB_DIR = -L/usr/lib/x86_64-linux-gnu/
 
@@ -18,8 +22,6 @@ OBJS=	cli_utils.o 		\
 	kmm.o 			\
 	main.o			\
 	mmsearch-pid.o		\
-
-#CFLAGS += -DDEBUG
 
 all: kvat
 

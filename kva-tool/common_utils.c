@@ -31,24 +31,18 @@ path_constructor(char result_buf[],
 	}
 
 	switch(op) {
-	case TEST_PHYSMAP:
-		snprintf(result_buf, MAXPATHLEN, "%s%s%s", 
-			 abs_path,
-			 TEST_PHYSMAP_DIR, 
-			 file_name);
-		break;
-	case BANKING_APP:
-		snprintf(result_buf, MAXPATHLEN, "%s%s%s", 
-			 abs_path,
-			 TEST_CLI_DIR,
-			 file_name);
-		break;
 	case MMSEARCH_MODULE:
 		snprintf(result_buf, MAXPATHLEN, "%s%s%s", 
 			 abs_path,
 			 MMSEARCH_DIR,
 			 file_name);
 		break;
+	case KERNEL_RK_MODULE:
+		snprintf(result_buf, MAXPATHLEN, "%s%s%s", 
+			 abs_path,
+			 KERNEL_RK_DIR,
+			 file_name);
+		break;		
 	default:
 		fprintf(stdout, "Programmer error %s undefined path operation\n",
 			__func__);

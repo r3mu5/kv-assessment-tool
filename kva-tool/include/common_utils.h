@@ -17,14 +17,12 @@
 #define MAXPATHLEN 256
 #define MAXCMDBUFFER 512
 #define PWD "PWD"
-#define TEST_PHYSMAP_DIR "/physmap-test/"
-#define TEST_CLI_DIR "/cli-test/"
 #define MMSEARCH_DIR "/mmsearch/"
+#define KERNEL_RK_DIR "/kernel-rk/"
 
 enum path_ops {
-	TEST_PHYSMAP = 0,
-	BANKING_APP,
-	MMSEARCH_MODULE,
+	MMSEARCH_MODULE = 0,
+	KERNEL_RK_MODULE,
 };
 
 typedef enum path_ops PATH_OPS;

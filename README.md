@@ -11,10 +11,10 @@ demonstrates how to scan any process's memory heap for information of
 interest.
 
 We are looking for other contributors to add modules and tests
-illustrating concerning behaviors.
+illustrating code paths and data structures vulnerable to attack.
 
 Our hope is to prompt a broader discussion as to how better to secure
-a unix kernel be it Linux or other by examining vulnerable kernel
+a Unix kernel be it Linux or other by examining vulnerable kernel
 paths.
 
 In the end, we aspire to evolve this into a regression tool to assess

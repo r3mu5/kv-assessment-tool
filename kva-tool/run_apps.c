@@ -11,6 +11,12 @@
  * with this program. If not, see http://www.gnu.org/licenses.
 */
 
+/*
+  Currently not compiled in... serves as an example for
+  how to run tests from the kvat commandline
+ */
+
+#if 0
 #include <common_utils.h>
 #include <strings.h>
 #include <stdio.h>
@@ -18,6 +24,8 @@
 
 #define MAXCMDBUFFER 512
 #define TEST_CLI_APP "cli-test"
+
+
 
 int
 run_banking_app(void)
@@ -43,3 +51,4 @@ run_banking_app(void)
 
 	return 0;
 }
+#endif

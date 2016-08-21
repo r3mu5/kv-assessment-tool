@@ -67,7 +67,10 @@
   - modify mmsearch_pid to support reading of search result
   - DONE
 
+* dsr_08202016
 
+  - remove DEBUG preprocessor macros and replace them wtih pr_debug()
 
+* dsr_08202016
 
-
+   - define standards for coding of kernel modules

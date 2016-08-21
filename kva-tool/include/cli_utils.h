@@ -21,13 +21,6 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-struct cmdObject {
-	unsigned long startAddress;
-	unsigned long endAddress;
-	unsigned long num_bytes;
-	pid_t pid_num;
-};
-
 void
 show_prompt(void);
 

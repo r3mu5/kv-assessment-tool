@@ -19,8 +19,6 @@
 
 #include "cli_utils.h"
 
-struct cmdObject co;
-
 static struct proc_t *
 get_process_info(pid_t pid,
 		 struct proc_t *proc)
@@ -45,6 +43,7 @@ get_proc_info(char *input)
 {
 	char *ptr;
 	struct proc_t *proc = NULL;
+	int pid_num;
 
 	proc = (struct proc_t*)malloc(sizeof(struct proc_t));
 	if (proc == NULL)
@@ -56,9 +55,9 @@ get_proc_info(char *input)
 			printf("Must provide process identifier\n");
 			return 0;
 		} else {
-			co.pid_num = atoi(ptr);
-			printf("Searching for info on pid: %d\n", co.pid_num);
-			proc = get_process_info(co.pid_num, proc);
+			pid_num = atoi(ptr);
+			printf("Searching for info on pid: %d\n", pid_num);
+			proc = get_process_info(pid_num, proc);
 			if (proc != NULL)
 				print_process_info(proc);
 		}
