@@ -29,30 +29,27 @@ Contributionss and improvements welcome.
 
 This package is known to build on:
 
-1) Debian Jessie 8.x
-2) Ubuntu 16.04
+- Debian Jessie 8.x
+- Ubuntu 16.04
 
 ## kernel versions tested
 
-1) 4.4.x
-...
+* 4.4.x
 
+...
 ## building kva-tool
 
 1. git clone the kv-assessment-tool repo
-
-2. install the linux-headers package for the kernel version you wish
-to test.
-
-    This is required to build the kernel module
-
+2. install the linux-headers package for the kernel version you wish to test
+  * This is required to build the kernel modules
 3. install libprocps3-dev package
+  * This is required to access process information from user space
+4. run make from top level directory
 
-   This is required to access process information
-
+```
 Some distros, such as Ubuntu 16.04 have moved to libprocps4-dev. When
 building against this version of libprocps, there is an a dependency
-on libsystemd-dev which must also be installed.
+on libsystemd-dev.
 
 To link against this library export the environnment variable
 WITH_LIBSYSTEMD and set it to true, e. g.:
@@ -60,53 +57,55 @@ WITH_LIBSYSTEMD and set it to true, e. g.:
 export WITH_LIBSYSTEMD=true
 
 prior to building the tool set.
-
-4. run make from top level directory
+```
 
 ## kva-tool commandline options
 
-	lkm-mmsearch
-		descr: loads the mmsearch kernel module
+	lkm-mmsearch:
+		loads the mmsearch kernel module
 
-	rkm-mmsearch
-		descr: unloads the mmsearch kernel module
+	rkm-mmsearch:
+		unloads the mmsearch kernel module
 
-	mmsearch-pid <proc_id>
-   	        descr: searches a given process's memory space
- 	               depends on mmsearch kernel module
+	lkm-kernel-rk:
+		loads the kernel root kit module
 
-	pagemapinfo <proc_id>
-		descr: outputs process virtual memory addresses 
-		       map
+	rkm-kernel-rk:
+		unloads the kernel root kit module
 
-	procinfo <proc_id>
-	       descr: displays detailed process information 
+	mmsearch-pid [proc_id]:
+   	        searches a given process's memory space
+ 	        depends on mmsearch kernel module
 
-	proclist
-		descr: displays the set of running processes
+	pagemapinfo [proc_id]:
+		outputs process virtual memory addresses 
+		map
+
+	procinfo [proc_id]:
+	       displays detailed process information 
+
+	proclist:
+		displays the set of running processes
 	        (akin to ps)
 
-	sysinfo
-		descr: reports system infomration
+	sysinfo:
+		detailed system infomration
 
-	quit
-		descr: to exit
+	quit:
+		to exit
 
 ## running the application
 
 1. it must be run in a root shell. It cannot be run using 'sudo'.
-
 2. the code must be checked out and compiled on the system under test.
-
-3. the application must be run from the sources base directory as
-   illustrated above.
+3. the application must be run from the sources base directory as illustrated above.
 
 ## mmsearch
 
 mmsearch-pid walks the memory space of any process and searches for
 a credit card number.
 
-The commandline 'mmsearch-pid <proc_id>' option passes the process pid
+The commandline 'mmsearch-pid [proc_id>] option passes the process pid
 to the mmsearch kernel module which scans the process's memory from
 kernel space.
 
@@ -114,7 +113,7 @@ The search is restricted to the process's heap regions. Other regions
 such as vdso, stack, anonymous are omitted.
 
 This kernel module was originally designed to demonstrate the
-effectiveness of the proposed XPFO patch set. See:
+effectiveness of the proposed linux kernel XPFO patch set. See:
 
 [[RFC PATCH] Add support for eXclusive Page Frame Ownership (XPFO)](https://lkml.org/lkml/2016/2/26/516)
 
@@ -128,13 +127,10 @@ To run the application:
 start mmearch/test/credit-card-app in the foreground
 
 Example output...
-
 ```
-
 dsr@hlinux-devel:~/dsr_src/kernel-vulnerability-tests$ mmsearch/test/credit-card-app  
 running as pid: 1188  
 malloc operation 0 ptr val: 0x1e30010
-
 ```
 
 Identify the process id of the running application, then invoke the
@@ -185,10 +181,10 @@ userspace memory. A kernel thread process sets mm_struct to NULL.
 
 ## other kva-tool options
 
-The objective of kva-tool is to provide the tools to interrogate a
-system under one umbrella.
+The objective of kva-tool is to provide the tools an attacker might
+want under one umbrella to interrogate a system.
 
-### **procinfo <proc_id>** 
+### **procinfo [proc_id]** 
 
 Command takes as input the id of a running linux process. 
 
@@ -205,7 +201,7 @@ address kernel instruction pointer: 0x7fe5f8875da3
 kva-tool>   
 ```
 
-### **pagemapinfo <proc_id>** 
+### **pagemapinfo [proc_id]** 
 
 Lists the /proc/[pid]/maps information. 
 
