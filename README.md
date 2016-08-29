@@ -29,35 +29,12 @@ Contributionss and improvements welcome.
 
 This package is known to build on:
 
-- Debian Jessie 8.x
-- Ubuntu 16.04
+1. Debian Jessie 8.x
+2. Ubuntu 16.04
 
 ## kernel versions tested
 
 * 4.4.x
-
-...
-## building kva-tool
-
-1. git clone the kv-assessment-tool repo
-2. install the linux-headers package for the kernel version you wish to test
-  * This is required to build the kernel modules
-3. install libprocps3-dev package
-  * This is required to access process information from user space
-4. run make from top level directory
-
-```
-Some distros, such as Ubuntu 16.04 have moved to libprocps4-dev. When
-building against this version of libprocps, there is an a dependency
-on libsystemd-dev.
-
-To link against this library export the environnment variable
-WITH_LIBSYSTEMD and set it to true, e. g.:
-
-export WITH_LIBSYSTEMD=true
-
-prior to building the tool set.
-```
 
 ## kva-tool commandline options
 
@@ -105,7 +82,7 @@ prior to building the tool set.
 mmsearch-pid walks the memory space of any process and searches for
 a credit card number.
 
-The commandline 'mmsearch-pid [proc_id>] option passes the process pid
+The commandline 'mmsearch-pid [proc_id] option passes the process pid
 to the mmsearch kernel module which scans the process's memory from
 kernel space.
 

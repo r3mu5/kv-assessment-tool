@@ -1,0 +1,22 @@
+=================
+building kva-tool
+=================
+
+# Build Dependencies
+
+1. install the linux-headers package for the kernel version you wish to test
+2. install libprocps3-dev or libprocps4-dev package
+   libprocps4-dev depends on libsystemd-dev
+
+Some distros, such as Ubuntu 16.04 have moved to libprocps4-dev. When
+building against this version of libprocps, there is an a dependency
+on libsystemd-dev. 
+
+To link against this library export the environnment variable
+WITH_LIBSYSTEMD and set it to true, e. g.: export WITH_LIBSYSTEMD=true
+
+# Build
+
+1. make from top level directory
+
+
