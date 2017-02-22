@@ -32,6 +32,10 @@ This package is known to build on:
 1. Debian Jessie 8.x
 2. Ubuntu 16.04
 
+## building the project
+
+See INSTALL.
+
 ## kernel versions tested
 
 * 4.4.x
@@ -55,11 +59,11 @@ This package is known to build on:
  	        depends on mmsearch kernel module
 
 	pagemapinfo [proc_id]:
-		outputs process virtual memory addresses 
+		outputs process virtual memory addresses
 		map
 
 	procinfo [proc_id]:
-	       displays detailed process information 
+	       displays detailed process information
 
 	proclist:
 		displays the set of running processes
@@ -105,8 +109,8 @@ start mmearch/test/credit-card-app in the foreground
 
 Example output...
 ```
-dsr@hlinux-devel:~/dsr_src/kernel-vulnerability-tests$ mmsearch/test/credit-card-app  
-running as pid: 1188  
+dsr@hlinux-devel:~/dsr_src/kernel-vulnerability-tests$ mmsearch/test/credit-card-app
+running as pid: 1188
 malloc operation 0 ptr val: 0x1e30010
 ```
 
@@ -118,24 +122,24 @@ this command 'echo <pid> > /sys/kernel/mmsearch_pid/mmsearch_pid'.
 
 ```
 root@hlinux-devel:/home/dsr/dsr_src/kernel-vulnerability-tests# kva-tool/kvat
-running as PID 1192  
-kva-tool> mmsearch-pid 1188  
+running as PID 1192
+kva-tool> mmsearch-pid 1188
 
 On completion, check dmesg output...
 
-[  155.871206] mmsearch: module verification failed: signature and/or required key missing - tainting kernel  
-[  155.872605] mmsearch_init: task(1192) task_struct_ptr(ffff88013a6e0000)  
-[  171.864242] mmsearch_pid_store: mmsearch pid: 1188  
-[  171.864255] process_vm_area_list: vm_start(1e30000) vm_end(1e32000) bytes copied(0x2000)  
-[  171.864256] dump_vma_flags: rw-p  
-[  171.864257] dump_page_table_flags: PTE(80000000b8707067) USER(1) PRES(1) PCD(0) RW(1) ACCESSD(1)  
+[  155.871206] mmsearch: module verification failed: signature and/or required key missing - tainting kernel
+[  155.872605] mmsearch_init: task(1192) task_struct_ptr(ffff88013a6e0000)
+[  171.864242] mmsearch_pid_store: mmsearch pid: 1188
+[  171.864255] process_vm_area_list: vm_start(1e30000) vm_end(1e32000) bytes copied(0x2000)
+[  171.864256] dump_vma_flags: rw-p
+[  171.864257] dump_page_table_flags: PTE(80000000b8707067) USER(1) PRES(1) PCD(0) RW(1) ACCESSD(1)
 
-[  171.864258] attack_run: dereferencing address(ffff8800b8707010): 3333 444444 55555 1234 0910 Frodo Baggins [1]  
+[  171.864258] attack_run: dereferencing address(ffff8800b8707010): 3333 444444 55555 1234 0910 Frodo Baggins [1]
 
-[  171.864306] process_vm_area_list: vm_start(1e32000) vm_end(1e52000) bytes copied(0x20000)  
-[  171.864307] dump_vma_flags: rw-p  
-[  171.864454] buffer_search: no data found  
-[  171.864457] mmsearch_pid_store: search complete for pid: 1188  
+[  171.864306] process_vm_area_list: vm_start(1e32000) vm_end(1e52000) bytes copied(0x20000)
+[  171.864307] dump_vma_flags: rw-p
+[  171.864454] buffer_search: no data found
+[  171.864457] mmsearch_pid_store: search complete for pid: 1188
 
 ```
 
@@ -147,8 +151,8 @@ If a kernel thread/process is passed in, the following error is
 reported:
 
 ```
-[ 5399.373518] mmsearch_pid_store: mmsearch pid: 3711  
-[ 5399.373533] mmsearch_pid_store: 3711 is a kernel thread  
+[ 5399.373518] mmsearch_pid_store: mmsearch pid: 3711
+[ 5399.373533] mmsearch_pid_store: 3711 is a kernel thread
 [ 5399.373535] mmsearch_pid_store: search complete for pid: 3711
 
 Kernel threads are skipped because they do not have access to
@@ -161,26 +165,26 @@ userspace memory. A kernel thread process sets mm_struct to NULL.
 The objective of kva-tool is to provide the tools an attacker might
 want under one umbrella to interrogate a system.
 
-### **procinfo [proc_id]** 
+### **procinfo [proc_id]**
 
-Command takes as input the id of a running linux process. 
+Command takes as input the id of a running linux process.
 
 Example output:
 
 ```
-kva-tool> procinfo 9722  
-Searching for info on pid: 9722  
-beginning address of text segment: 0x400000  
-ending address of text segment: 0x60c6c0  
-address of bottom of stack: 0x7ffe52993440  
-address kernel stack pointer: 0x7ffe52992200  
-address kernel instruction pointer: 0x7fe5f8875da3  
-kva-tool>   
+kva-tool> procinfo 9722
+Searching for info on pid: 9722
+beginning address of text segment: 0x400000
+ending address of text segment: 0x60c6c0
+address of bottom of stack: 0x7ffe52993440
+address kernel stack pointer: 0x7ffe52992200
+address kernel instruction pointer: 0x7fe5f8875da3
+kva-tool>
 ```
 
-### **pagemapinfo [proc_id]** 
+### **pagemapinfo [proc_id]**
 
-Lists the /proc/[pid]/maps information. 
+Lists the /proc/[pid]/maps information.
 
 Example output:
 
@@ -196,13 +200,13 @@ kva-tool> pagemapinfo 8946
 7ff024441000 (2048 KB) ---p (08:01 2361750)  /lib/x86_64-linux-gnu/libc-2.19.so
 7ff024641000 (16 KB)   r--p (08:01 2361750)  /lib/x86_64-linux-gnu/libc-2.19.so
 7ff024645000 (8 KB)    rw-p (08:01 2361750)  /lib/x86_64-linux-gnu/libc-2.19.so
-7ff024647000 (20 KB)   rw-p (00:00 0)        
+7ff024647000 (20 KB)   rw-p (00:00 0)
 7ff02464c000 (140 KB)  r-xp (08:01 2361736)  /lib/x86_64-linux-gnu/ld-2.19.so
-7ff024845000 (12 KB)   rw-p (00:00 0)        
-7ff02486b000 (12 KB)   rw-p (00:00 0)        
+7ff024845000 (12 KB)   rw-p (00:00 0)
+7ff02486b000 (12 KB)   rw-p (00:00 0)
 7ff02486e000 (4 KB)    r--p (08:01 2361736)  /lib/x86_64-linux-gnu/ld-2.19.so
 7ff02486f000 (4 KB)    rw-p (08:01 2361736)  /lib/x86_64-linux-gnu/ld-2.19.so
-7ff024870000 (4 KB)    rw-p (00:00 0)        
+7ff024870000 (4 KB)    rw-p (00:00 0)
 7fff5a910000 (132 KB)  rw-p (00:00 0)        [stack]
 7fff5a9fe000 (8 KB)    r-xp (00:00 0)        [vdso]
 ffffffffff600000 (4 KB)  r-xp (00:00 0)      [vsyscall]
@@ -210,70 +214,55 @@ mapped:   4328 KB writable/private: 332 KB shared: 0 KB
 
 ```
 
-### **sysinfo** 
+### **sysinfo**
 
 Lists system information of interest.
 
 Example output:
 
 ```
-kva-tool> sysinfo  
-processor: x86_64  
-release: 3.13.0-71-generic  
-version: #114-Ubuntu SMP Tue Dec 1 02:34:22 UTC 2015  
-total ram: 25264107520  
-free ram: 21985210368  
-total swap: 25750925312  
-free swap: 25750925312  
-\num current processes: 723  
-total high memory size: 0  
-free high memory: 0  
-memory units size (bytes): 1  
+kva-tool> sysinfo
+processor: x86_64
+release: 3.13.0-71-generic
+version: #114-Ubuntu SMP Tue Dec 1 02:34:22 UTC 2015
+total ram: 25264107520
+free ram: 21985210368
+total swap: 25750925312
+free swap: 25750925312
+\num current processes: 723
+total high memory size: 0
+free high memory: 0
+memory units size (bytes): 1
 
 ```
 
-###  **proclist** Akin to ps output. 
+###  **proclist** Akin to ps output.
 
 Lists the set of current running processes.
 
 Example output:
 
 ```
-kva-tool> proclist  
-     1                  init:	  808	   45	  119  
-     2              kthreadd:	    0	    0	    1  
-     3           ksoftirqd/0:	    0	    0	   27  
-     4           kworker/0:0:	    0	    0	  560  
-     5          kworker/0:0H:	    0	    0	    0  
-     6         kworker/u64:0:	    0	    0	 2266  
-     8             rcu_sched:	    0	    0	  957  
-     9               rcuos/0:	    0	    0	 1282  
-    10               rcuos/1:	    0	    0	   42  
-    11               rcuos/2:	    0	    0	   47  
-    12               rcuos/3:	    0	    0	   38  
-    13               rcuos/4:	    0	    0	   42  
-    14               rcuos/5:	    0	    0	   36  
-    15               rcuos/6:	    0	    0	   31  
-    16               rcuos/7:	    0	    0	   31  
-    17               rcuos/8:	    0	    0	  443  
-    18               rcuos/9:	    0	    0	   23  
-    19              rcuos/10:	    0	    0	   24  
-    20              rcuos/11:	    0	    0	  144  
+kva-tool> proclist
+     1                  init:	  808	   45	  119
+     2              kthreadd:	    0	    0	    1
+     3           ksoftirqd/0:	    0	    0	   27
+     4           kworker/0:0:	    0	    0	  560
+     5          kworker/0:0H:	    0	    0	    0
+     6         kworker/u64:0:	    0	    0	 2266
+     8             rcu_sched:	    0	    0	  957
+     9               rcuos/0:	    0	    0	 1282
+    10               rcuos/1:	    0	    0	   42
+    11               rcuos/2:	    0	    0	   47
+    12               rcuos/3:	    0	    0	   38
+    13               rcuos/4:	    0	    0	   42
+    14               rcuos/5:	    0	    0	   36
+    15               rcuos/6:	    0	    0	   31
+    16               rcuos/7:	    0	    0	   31
+    17               rcuos/8:	    0	    0	  443
+    18               rcuos/9:	    0	    0	   23
+    19              rcuos/10:	    0	    0	   24
+    20              rcuos/11:	    0	    0	  144
     ...
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
