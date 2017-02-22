@@ -17,6 +17,7 @@
 #include <asm/paravirt.h>   /* Read_cr0, write_cr0 */
 #include <linux/slab.h>     /* Current task_struct */
 #include <asm/uaccess.h>    /* copy_from_user, copy_to_user */
+#include <linux/vmalloc.h>
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("ian cohee - david roth");

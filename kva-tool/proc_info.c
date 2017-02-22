@@ -70,18 +70,24 @@ get_proc_info(char *input)
 void
 display_process_list(void)
 {
-	int libflags = (PROC_FILLMEM | 
-			PROC_FILLSTAT | 
+	int libflags = (PROC_FILLMEM |
+			PROC_FILLSTAT |
 			PROC_FILLSTATUS);
 	PROCTAB *PT;
-	proc_t p = { 0 };
+	proc_t *p;
 
 	PT = openproc(libflags);
 
-	while (readproc(PT, &p) != NULL) {
+	if (!PT) {
+		printf("error opening proctab\n");
+		return;
+	}
+
+	while ((p = readproc(PT, NULL)) != NULL) {
 		printf("%6d  %20s:\t%5ld\t%5lld\t%5lld\n",
-		       p.tid, p.cmd, p.resident,
-		       p.utime, p.stime);
+		       p->tid, p->cmd, p->resident,
+		       p->utime, p->stime);
+		freeproc(p);
 	}
 
 	closeproc(PT);
